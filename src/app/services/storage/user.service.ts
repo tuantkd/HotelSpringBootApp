@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { USER_CONST } from '../../utils/user-const';
 import { UserStorage } from '../../models/user';
+import { Router } from '@angular/router';
+import { NAVIGATE_ROUTE_CONST } from '../../utils/api-url-const';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  constructor() {}
+  constructor(
+    private readonly _router: Router,
+    private readonly _modalService: NzModalService
+  ) {}
 
   static saveTokenLocalStorage(token: string): void {
     localStorage.removeItem(USER_CONST.TOKEN);
@@ -24,7 +29,9 @@ export class UserService {
   }
 
   static getUserLocalStorage(): UserStorage {
-    return JSON.parse(localStorage.getItem(USER_CONST.USER_INFO) as any) as UserStorage;
+    return JSON.parse(
+      localStorage.getItem(USER_CONST.USER_INFO) as any
+    ) as UserStorage;
   }
 
   static getUserId(): number {
@@ -38,21 +45,30 @@ export class UserService {
   }
 
   static isAdminLogined(): boolean {
-    if (this.getTokenLocalStorage() && this.getUserRole() === 'ADMIN'){
+    if (this.getTokenLocalStorage() && this.getUserRole() === 'ADMIN') {
       return true;
     }
     return false;
   }
 
   static isCustomerLogined(): boolean {
-    if (this.getTokenLocalStorage() && this.getUserRole() === 'CUSTOMER'){
+    if (this.getTokenLocalStorage() && this.getUserRole() === 'CUSTOMER') {
       return true;
     }
     return false;
   }
 
-  static logOut(): void {
-    localStorage.removeItem(USER_CONST.TOKEN);
-    localStorage.removeItem(USER_CONST.USER_INFO);
+  logOut(): void {
+    this._modalService.confirm({
+      nzTitle: 'Confirm',
+      nzContent: 'Do you want to log out?',
+      nzOkText: 'Okie',
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        localStorage.removeItem(USER_CONST.TOKEN);
+        localStorage.removeItem(USER_CONST.USER_INFO);
+        this._router.navigateByUrl(NAVIGATE_ROUTE_CONST.LOGIN);
+      },
+    });
   }
 }

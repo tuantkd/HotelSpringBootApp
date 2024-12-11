@@ -12,7 +12,7 @@
                     <input type="text" id="email" formControlName="email" placeholder="Email Address" 
                     [ngClass]="{'is-valid': email?.valid, 'is-invalid': email?.invalid && email?.touched}"/>
 
-                    <input type="password" id="password" formControlName="password" placeholder="Create Password" 
+                    <input type="password" id="password" autocomplete formControlName="password" placeholder="Create Password" 
                     [ngClass]="{'is-valid': password?.valid, 'is-invalid': password?.invalid && password?.touched}"/>
 
                     <input type="button" value="Login" id="login" (click)="onSubmit()" 
