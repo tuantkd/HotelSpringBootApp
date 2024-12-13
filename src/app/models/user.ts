@@ -6,6 +6,12 @@ export interface User {
 }
 
 export interface UserStorage {
-    userId?: number;
-    userRole?: string;
+    user?: User;
+    userRoles?: Array<string>;
+    userPermissions?: Array<string>;
+}
+
+export interface UserTable extends User{
+    roles?: Array<string>;
+    permissions?: Array<string>;
 }

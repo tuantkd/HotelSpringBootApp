@@ -9,7 +9,7 @@ export const canActivateChildGuard: CanActivateChildFn = (
 ) => {
   const _router = inject(Router);
 
-  if (UserService.isAdminLogined() || UserService.isCustomerLogined()) {
+  if (UserService.isLogined()) {
     return true; // Have access
   }
 

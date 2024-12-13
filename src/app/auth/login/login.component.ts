@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
 import { NAVIGATE_ROUTE_CONST } from '../../utils/api-url-const';
 import { Router } from '@angular/router';
@@ -15,7 +20,7 @@ import { UserStorage } from 'src/app/models/user';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -23,8 +28,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly _router: Router,
     private readonly _authService: AuthService,
-    private readonly _message: NzMessageService,
-  ){}
+    private readonly _message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -43,17 +48,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      const userInput = this.loginForm.value as LoginRequest;
+      const userInput: LoginRequest = this.loginForm.value;
       this._authService.loginAuth(userInput).subscribe({
         next: (res: LoginResponse) => {
           this._message.success('Login successfully', {
-            nzDuration: 3000
+            nzDuration: 3000,
           });
-          const user = { userId: res?.userId, userRole: res?.userRole } as UserStorage;
-          UserService.saveUserLocalStorage(user);
-          UserService.saveTokenLocalStorage(String(res?.jwt));
-
+          UserService.saveTokenLocalStorage(String(res?.jwtToken));
           this._router.navigateByUrl(NAVIGATE_ROUTE_CONST.HOME);
         },
         error: (err) => console.error(err),

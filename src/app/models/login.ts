@@ -1,7 +1,5 @@
 export interface LoginResponse {
-    jwt?: string;
-    userId?: number;
-    userRole?: string;
+    jwtToken?: string;
 }
 
 export interface LoginRequest {

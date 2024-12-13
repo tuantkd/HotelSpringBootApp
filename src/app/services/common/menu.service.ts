@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SideBarMenu } from 'src/app/models/menu';
+import { SideBarMenu } from '../../models/menu';
 import { UserService } from '../storage/user.service';
 import { MENU_ITEMS } from '../../utils/menu-const';
 
@@ -12,7 +12,7 @@ export class MenuService {
 
   // Get menu items based on the user's role
   getMenuItems(): SideBarMenu[] {
-    const userRole = UserService.getUserRole();
-    return MENU_ITEMS.filter(item => item.roles.includes(userRole));
+    const userPermissions = UserService.getUserPermissions();
+    return MENU_ITEMS.filter((item) => userPermissions.includes(item.permission));;
   }
 }

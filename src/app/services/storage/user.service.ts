@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { USER_CONST } from '../../utils/user-const';
-import { UserStorage } from '../../models/user';
+import { User, UserStorage } from '../../models/user';
 import { Router } from '@angular/router';
 import { NAVIGATE_ROUTE_CONST } from '../../utils/api-url-const';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -34,25 +34,23 @@ export class UserService {
     ) as UserStorage;
   }
 
-  static getUserId(): number {
+  static getUser(): User {
     const user = this.getUserLocalStorage();
-    return user?.userId ?? 0;
+    return user?.user ?? {};
   }
 
-  static getUserRole(): string {
+  static getUserRoles(): Array<string> {
     const user = this.getUserLocalStorage();
-    return user?.userRole ?? '';
+    return user?.userRoles ?? [];
   }
 
-  static isAdminLogined(): boolean {
-    if (this.getTokenLocalStorage() && this.getUserRole() === 'ADMIN') {
-      return true;
-    }
-    return false;
+  static getUserPermissions(): Array<string> {
+    const user = this.getUserLocalStorage();
+    return user?.userPermissions ?? [];
   }
 
-  static isCustomerLogined(): boolean {
-    if (this.getTokenLocalStorage() && this.getUserRole() === 'CUSTOMER') {
+  static isLogined(): boolean {
+    if (this.getTokenLocalStorage()) {
       return true;
     }
     return false;

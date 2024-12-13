@@ -15,7 +15,7 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TooltipsComponent } from './components/tooltips/tooltips.component';
-import { ProductComponent } from './dashboard/dashboard-components/product/product.component';
+import { ProductComponent } from './components/product/product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullComponent } from './layouts/full/full.component';
 import { RegisterComponent } from './auth/register/register.component';

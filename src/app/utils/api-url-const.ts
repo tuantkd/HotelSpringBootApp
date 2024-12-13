@@ -1,6 +1,6 @@
 export const API_URL_CONST = {
-    REGISTER: "/api/auth/register",
-    LOGIN: "/api/auth/login",
+    REGISTER: "/api/v1/auth/register",
+    LOGIN: "/api/v1/auth/login",
 };
 
 export const NAVIGATE_ROUTE_CONST = {

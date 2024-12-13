@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { UserService } from '../../services/storage/user.service';
 import { SideBarMenu } from '../../models/menu';
 import { MenuService } from '../../services/common/menu.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-full',
@@ -35,5 +36,9 @@ export class FullComponent {
 
   logOut(): void {
     this._userService.logOut();
+  }
+
+  get userInfor(): User {
+    return UserService.getUser();
   }
 }
