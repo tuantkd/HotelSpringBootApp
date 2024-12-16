@@ -1,0 +1,30 @@
+<mat-dialog-content>
+  <h4 class="mb-32">{{ title }}</h4>
+  <form [formGroup]="roleForm">
+    <mat-form-field class="w-100 fs-16" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Enter Name"
+        formControlName="name"
+      />
+      <mat-error *ngIf="roleForm.get('name')?.hasError('required')"></mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-100 fs-16" appearance="outline">
+      <mat-label>Description</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Enter Description"
+        formControlName="description"
+      />
+      <mat-error *ngIf="roleForm.get('description')?.hasError('required')"></mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close>Close</button>
+  <button mat-flat-button color="primary" [disabled]="roleForm.invalid" (click)="onSubmit()">{{ action }}</button>
+</mat-dialog-actions>

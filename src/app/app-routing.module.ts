@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AlertsComponent } from './components/alerts/alerts.component';
-import { ButtonsComponent } from './components/buttons/buttons.component';
+import { RolesComponent } from './components/roles/roles.component';
 import { ChipsComponent } from './components/chips/chips.component';
 import { ExpansionComponent } from './components/expansion/expansion.component';
 import { FormsComponent } from './components/forms/forms.component';
@@ -15,7 +15,7 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TooltipsComponent } from './components/tooltips/tooltips.component';
-import { ProductComponent } from './components/product/product.component';
+import { ProductComponent } from './components/users/users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullComponent } from './layouts/full/full.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -38,7 +38,7 @@ const routes: Routes = [
       },
       { path: 'alerts', component: AlertsComponent },
       { path: 'forms', component: FormsComponent },
-      { path: 'table', component: ProductComponent },
+      { path: 'users', component: ProductComponent },
       { path: 'grid-list', component: GridListComponent },
       { path: 'menu', component: MenuComponent },
       { path: 'tabs', component: TabsComponent },
@@ -51,7 +51,7 @@ const routes: Routes = [
       { path: 'slider', component: SliderComponent },
       { path: 'slide-toggle', component: SlideToggleComponent },
       { path: 'tooltip', component: TooltipsComponent },
-      { path: 'button', component: ButtonsComponent },
+      { path: 'roles', component: RolesComponent },
     ],
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

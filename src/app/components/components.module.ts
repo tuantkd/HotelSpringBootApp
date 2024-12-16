@@ -17,8 +17,9 @@ import { ProgressSnipperComponent } from './progress-snipper/progress-snipper.co
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SliderComponent } from './slider/slider.component';
 import { SlideToggleComponent } from './slide-toggle/slide-toggle.component';
-import { ButtonsComponent } from './buttons/buttons.component';
+import { RolesComponent } from './roles/roles.component';
 import { TooltipsComponent } from './tooltips/tooltips.component';
+import { AddRoleComponent } from './roles/add/add-role/add-role.component';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
     CommonModule,
     FeatherModule.pick(allIcons),
     DemoFlexyModule,
-    ButtonsComponent,
+    RolesComponent,
     SlideToggleComponent,
     SliderComponent,
     ToolbarComponent,
@@ -41,6 +42,7 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
     AlertsComponent,
     GridListComponent,
     TooltipsComponent,
+    AddRoleComponent,
     FormsModule
   ],
   exports: [
@@ -57,7 +59,8 @@ import { TooltipsComponent } from './tooltips/tooltips.component';
     SnackbarComponent,
     SliderComponent,
     SlideToggleComponent,
-    ButtonsComponent,
+    RolesComponent,
+    AddRoleComponent,
   ]
 })
 export class ComponentsModule { }

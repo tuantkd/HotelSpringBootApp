@@ -13,6 +13,6 @@ export class MenuService {
   // Get menu items based on the user's role
   getMenuItems(): SideBarMenu[] {
     const userPermissions = UserService.getUserPermissions();
-    return MENU_ITEMS.filter((item) => userPermissions.includes(item.permission));;
+    return MENU_ITEMS;
   }
 }

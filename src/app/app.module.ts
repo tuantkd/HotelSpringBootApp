@@ -21,10 +21,11 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoginComponent } from './auth/login/login.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { authInterceptor } from './auth.interceptor';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -55,6 +56,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
     provideHttpClient(),
   ],

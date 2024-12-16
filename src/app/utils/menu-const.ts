@@ -8,9 +8,15 @@ export const MENU_ITEMS: SideBarMenu[] = [
     permission: 'VIEW_DASHBOARD',
   },
   {
-    link: '/button',
+    link: '/users',
+    icon: 'users',
+    title: 'Manage Users',
+    permission: 'ACCESS_PERMISSIONS',
+  },
+  {
+    link: '/roles',
     icon: 'disc',
-    title: 'Buttons',
+    title: 'Manage Roles',
     permission: '',
   },
   {
@@ -36,12 +42,6 @@ export const MENU_ITEMS: SideBarMenu[] = [
     icon: 'menu',
     title: 'Menus',
     permission: '',
-  },
-  {
-    link: '/table',
-    icon: 'grid',
-    title: 'Tables',
-    permission: 'ACCESS_PERMISSIONS',
   },
   {
     link: '/expansion',
