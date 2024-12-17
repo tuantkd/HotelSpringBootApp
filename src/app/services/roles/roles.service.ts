@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../common/api.service';
-import { PaginationRoles, Role } from '../../models/role';
+import { EditRoleModal, PaginationRoles, Role } from '../../models/role';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API_URL_CONST } from '../../utils/api-url-const';
 import { isNullOrEmptyString, isNullOrInvalidNumber } from '../../utils/helper';
@@ -12,7 +12,7 @@ import { ResponseMessage } from '../../models/response-message';
 })
 export class RolesService {
   private readonly apiUrl = environment.apiUrl;
-  roleModalSubject = new BehaviorSubject<Role>({});
+  roleModalSubject$ = new BehaviorSubject<EditRoleModal>({} as EditRoleModal);
 
   constructor(private readonly _apiService: ApiService) {}
 
@@ -43,11 +43,19 @@ export class RolesService {
     return this._apiService.post<Role>(`${this.apiUrl}${API_URL_CONST.CREATE_ROLE}`, role);
   }
 
+  updateRole(role: Role): Observable<Role> {
+    return this._apiService.post<Role>(`${this.apiUrl}${API_URL_CONST.UPDATE_ROLE}`, role);
+  }
+
   deleteRole(id: number): Observable<any> {
     return this._apiService.delete<ResponseMessage>(`${this.apiUrl}${API_URL_CONST.DELETE_ROLE}/${id}`);
   }
 
-  setRoleModalSubject(roleModal: Role) {
-    this.roleModalSubject.next(roleModal);
+  findRoleById(id: number): Observable<Role> {
+    return this._apiService.get<Role>(`${this.apiUrl}${API_URL_CONST.FIND_ROLE}/${id}`);
+  }
+
+  setRoleModalSubject(roleModal: EditRoleModal) {
+    this.roleModalSubject$.next(roleModal);
   }
 }

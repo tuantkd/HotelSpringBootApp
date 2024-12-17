@@ -1,28 +1,34 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DemoFlexyModule } from '../../demo-flexy.module';
-import { PaginationRoles, Role } from '../../models/role';
+import { EditRoleModal, PaginationRoles, Role } from '../../models/role';
 import { MatSort } from '@angular/material/sort';
 import { RolesService } from '../../services/roles/roles.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddRoleComponent } from './add/add-role/add-role.component';
-import { DIALOG_CONST } from '../../utils/dialog';
 import { Subscription } from 'rxjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderTableCommon, PageSizeChange, SortByChange, TableCommonComponent } from '../table-common/table-common.component';
 
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [DemoFlexyModule, DemoNgZorroAntdModule, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [DemoFlexyModule, DemoNgZorroAntdModule, CommonModule, FormsModule, ReactiveFormsModule, TableCommonComponent],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
 })
 export class RolesComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'description', 'action'];
-  dataSource = new MatTableDataSource<Role>([]);
+  @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
+  displayedColumns: HeaderTableCommon[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'description', label: 'Description' },
+    { key: 'actions', label: 'Actions', template: this.actionsCell },
+  ];
+  dataSource: Array<Role> = [];
   totalAll: number = 0;
   totalPages: number = 0;
   pageSize: FormControl = new FormControl(10);
@@ -43,23 +49,24 @@ export class RolesComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this._rolesService.roleModalSubject.subscribe((data) => {
+      this._rolesService.roleModalSubject$.subscribe((data) => {
         this.loadRoles();
       })
     );
-    this.pageSize.valueChanges.subscribe(value => {
-      this.onPageSizeChange();
-    });
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    this.displayedColumns = this.displayedColumns.map((col) =>
+      col.key === 'actions' ? { ...col, template: this.actionsCell } : col
+    );
+  }
 
-    this.sort.sortChange.subscribe((sort) => {
-      this.currentSort = sort.active;
-      this.currentDirection = sort.direction;
-      this.loadRoles();
-    });
+  onEdit(element: any): void {
+    console.log('Edit:', element);
+  }
+
+  onDelete(element: any): void {
+    console.log('Delete:', element);
   }
 
   loadRoles(): void {
@@ -71,16 +78,27 @@ export class RolesComponent implements OnInit {
         this.currentDirection
       )
       .subscribe((response: PaginationRoles) => {
-        this.dataSource.data = response.roles as Array<Role>;
+        this.dataSource = response.roles as Array<Role>;
         this.totalAll = Number(response.totalAll);
         this.totalPages =  Number(response.totalPages);
       });
   }
 
-  addRole(): void {
+  openModal(data?: EditRoleModal): void {
     this._dialog.open(AddRoleComponent, {
       width: '600px',
-      data: DIALOG_CONST.OPEN,
+      data: data
+    });
+  }
+
+  editRole(id: number): void {
+    this._rolesService.findRoleById(id).subscribe(data => {
+      const editRole: EditRoleModal = {
+        title: 'Edit role',
+        action: 'Update',
+        role: data
+      }
+      this.openModal(editRole);
     });
   }
 
@@ -98,15 +116,20 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  changePage(page: number): void {
-    if (page >= 0 && page < this.totalPages) {
-      this.currentPage = page;
-      this.loadRoles();
-    }
+  onCurrentPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadRoles();
   }
 
-  onPageSizeChange(): void {
-    this.currentPage = 0;
+  onPageSizeChange(page: PageSizeChange): void {
+    this.currentPage = page.page;
+    this.pageSize.setValue(page.pageSize);
+    this.loadRoles();
+  }
+
+  onSortChange(sort: SortByChange): void {
+    this.currentSort = sort.currentSort;
+    this.currentDirection = sort.currentDirection;
     this.loadRoles();
   }
 

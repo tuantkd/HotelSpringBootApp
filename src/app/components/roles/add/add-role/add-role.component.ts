@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DemoFlexyModule } from '../../../../demo-flexy.module';
 import {
   FormBuilder,
@@ -7,10 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { RolesService } from '../../../../services/roles/roles.service';
-import { Role } from '../../../../models/role';
+import { EditRoleModal, Role } from '../../../../models/role';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CommonModule } from '@angular/common';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-role',
@@ -26,10 +26,11 @@ export class AddRoleComponent implements OnInit {
   action: string = "Add";
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     private readonly _rolesService: RolesService,
     private readonly _message: NzMessageService,
-    public _dialogRef: MatDialogRef<AddRoleComponent>
+    public _dialogRef: MatDialogRef<AddRoleComponent>,
+    @Inject(MAT_DIALOG_DATA) public dataRole: EditRoleModal
   ) {}
 
   ngOnInit(): void {
@@ -37,13 +38,49 @@ export class AddRoleComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
     });
+    this.editRoleModal();
+  }
+
+  editRoleModal(): void {
+    // Set value modal edit role
+    this.title = this.dataRole.title;
+    this.action = this.dataRole.action;
+    this.roleForm.get('name')?.setValue(this.dataRole?.role?.name);
+    this.roleForm.get('name')?.disable();
+    this.roleForm.get('description')?.setValue(this.dataRole?.role?.description);
   }
 
   onSubmit(): void {
     const roleInput = this.roleForm.value as Role;
+    if (this.dataRole?.role?.id) {
+      this.updateRole(this.dataRole?.role?.id, roleInput);
+    } else {
+      this.createRoleNew(roleInput);
+    }
+  }
+
+  updateRole(id: number, roleInput?: Role): void {
+    // Update role by Id
+    const dataUpdate: Role = {
+      id: id,
+      description: roleInput?.description
+    }
+    this._rolesService.updateRole(dataUpdate).subscribe((response) => {
+      if (response?.id !== null) {
+        this._rolesService.setRoleModalSubject({} as EditRoleModal);
+        this._dialogRef.close();
+        this._message.success('Update successfully', {
+          nzDuration: 3000,
+        });
+      }
+    });
+  }
+
+  createRoleNew(roleInput: Role): void {
+    // Create new role
     this._rolesService.createRole(roleInput).subscribe((response) => {
       if (response?.id !== null) {
-        this._rolesService.setRoleModalSubject(response);
+        this._rolesService.setRoleModalSubject({} as EditRoleModal);
         this._dialogRef.close();
         this._message.success('Create successfully', {
           nzDuration: 3000,

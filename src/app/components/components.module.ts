@@ -16,9 +16,9 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ProgressSnipperComponent } from './progress-snipper/progress-snipper.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SliderComponent } from './slider/slider.component';
-import { SlideToggleComponent } from './slide-toggle/slide-toggle.component';
+import { PermissionsComponent } from './permissions/permissions.component';
 import { RolesComponent } from './roles/roles.component';
-import { TooltipsComponent } from './tooltips/tooltips.component';
+import { TableCommonComponent } from './table-common/table-common.component';
 import { AddRoleComponent } from './roles/add/add-role/add-role.component';
 
 
@@ -28,7 +28,7 @@ import { AddRoleComponent } from './roles/add/add-role/add-role.component';
     FeatherModule.pick(allIcons),
     DemoFlexyModule,
     RolesComponent,
-    SlideToggleComponent,
+    PermissionsComponent,
     SliderComponent,
     ToolbarComponent,
     ProgressSnipperComponent,
@@ -41,7 +41,7 @@ import { AddRoleComponent } from './roles/add/add-role/add-role.component';
     FormsComponent,
     AlertsComponent,
     GridListComponent,
-    TooltipsComponent,
+    TableCommonComponent,
     AddRoleComponent,
     FormsModule
   ],
@@ -58,9 +58,10 @@ import { AddRoleComponent } from './roles/add/add-role/add-role.component';
     ProgressSnipperComponent,
     SnackbarComponent,
     SliderComponent,
-    SlideToggleComponent,
+    PermissionsComponent,
     RolesComponent,
     AddRoleComponent,
+    TableCommonComponent,
   ]
 })
 export class ComponentsModule { }

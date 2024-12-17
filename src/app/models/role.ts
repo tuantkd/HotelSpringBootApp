@@ -4,6 +4,12 @@ export interface Role {
     description?: string;
 }
 
+export interface EditRoleModal {
+    title: string;
+    action: string
+    role?: Role;
+}
+
 export interface PaginationRoles {
     roles?: Array<Role>;
     totalElements?: number;

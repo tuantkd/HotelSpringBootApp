@@ -9,136 +9,38 @@
 
       <!-- Right Content -->
       <div class="header-right">
-        <button mat-flat-button color="primary" (click)="addRole()">
+        <button mat-flat-button color="primary" (click)="openModal()">
           Add New
         </button>
       </div>
     </div>
 
     <div class="table-responsive">
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        class="text-nowrap w-100"
-        matSort
-      >
-        <!-- Id Column -->
-        <ng-container matColumnDef="id">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by id"
-          >
-            Id
-          </th>
-          <td mat-cell class="fw-medium" *matCellDef="let element">
-            {{ element.id }}
-          </td>
-        </ng-container>
+      <app-table-common
+        [data]="dataSource"
+        [columns]="displayedColumns"
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (pageSizeChange)="onPageSizeChange($event)"
+        (currentPageChange)="onCurrentPageChange($event)"
+        (sortChange)="onSortChange($event)"
+      ></app-table-common>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by name"
-          >
-            Name
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <p class="mb-0 fw-medium">{{ element.name }}</p>
-          </td>
-        </ng-container>
-
-        <!-- Description Column -->
-        <ng-container matColumnDef="description">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by description"
-          >
-            Description
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <p class="mb-0 fw-medium">{{ element.description }}</p>
-          </td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              aria-label="More vert icon"
-              [matMenuTriggerFor]="menu"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Edit</button>
-              <button mat-menu-item>Assign Permissions</button>
-              <button mat-menu-item (click)="deleteRole(element.id)">
-                Delete
-              </button>
-            </mat-menu>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-
-      <!-- Pagination Controls -->
-      <div class="pagination-controls">
-        <div class="item-per-page">Items per page:</div>
-        <div class="page-size-selector">
-          <mat-form-field appearance="outline">
-            <mat-select [formControl]="pageSize">
-              <mat-option *ngFor="let size of pageSizeOptions" [value]="size">
-                {{ size }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="pagination-buttons">
-          <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-
-          <button
-            mat-icon-button
-            (click)="changePage(0)"
-            [disabled]="currentPage === 0"
-          >
-            <mat-icon>first_page</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            (click)="changePage(currentPage - 1)"
-            [disabled]="currentPage === 0"
-          >
-            <mat-icon>chevron_left</mat-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            (click)="changePage(currentPage + 1)"
-            [disabled]="currentPage + 1 >= totalPages"
-          >
-            <mat-icon>chevron_right</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            (click)="changePage(totalPages - 1)"
-            [disabled]="currentPage + 1 >= totalPages"
-          >
-            <mat-icon>last_page</mat-icon>
-          </button>
-        </div>
-      </div>
+      <!-- Define the Custom Template -->
+      <ng-template #actionsCell let-element>
+        <button
+          mat-icon-button
+          aria-label="More vert icon"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editRole(element.id)">Edit</button>
+          <button mat-menu-item>Assign Permissions</button>
+          <button mat-menu-item (click)="deleteRole(element.id)">Delete</button>
+        </mat-menu>
+      </ng-template>
     </div>
   </mat-card-content>
 </mat-card>

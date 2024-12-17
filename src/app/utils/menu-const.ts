@@ -10,13 +10,19 @@ export const MENU_ITEMS: SideBarMenu[] = [
   {
     link: '/users',
     icon: 'users',
-    title: 'Manage Users',
+    title: 'Users',
     permission: 'ACCESS_PERMISSIONS',
   },
   {
     link: '/roles',
     icon: 'disc',
-    title: 'Manage Roles',
+    title: 'Roles',
+    permission: '',
+  },
+  {
+    link: '/permissions',
+    icon: 'layers',
+    title: 'Permissions',
     permission: '',
   },
   {
@@ -95,12 +101,6 @@ export const MENU_ITEMS: SideBarMenu[] = [
     link: '/slider',
     icon: 'sliders',
     title: 'Slider',
-    permission: '',
-  },
-  {
-    link: '/slide-toggle',
-    icon: 'layers',
-    title: 'Slide Toggle',
     permission: '',
   },
 ];

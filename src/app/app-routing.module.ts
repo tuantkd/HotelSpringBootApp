@@ -9,12 +9,11 @@ import { GridListComponent } from './components/grid-list/grid-list.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ProgressSnipperComponent } from './components/progress-snipper/progress-snipper.component';
 import { ProgressComponent } from './components/progress/progress.component';
-import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
+import { PermissionsComponent } from './components/permissions/permissions.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { TooltipsComponent } from './components/tooltips/tooltips.component';
 import { ProductComponent } from './components/users/users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullComponent } from './layouts/full/full.component';
@@ -49,8 +48,7 @@ const routes: Routes = [
       { path: 'progress-snipper', component: ProgressSnipperComponent },
       { path: 'snackbar', component: SnackbarComponent },
       { path: 'slider', component: SliderComponent },
-      { path: 'slide-toggle', component: SlideToggleComponent },
-      { path: 'tooltip', component: TooltipsComponent },
+      { path: 'permissions', component: PermissionsComponent },
       { path: 'roles', component: RolesComponent },
     ],
   },
