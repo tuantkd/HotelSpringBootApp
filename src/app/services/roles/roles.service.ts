@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { ApiService } from '../common/api.service';
-import { EditRoleModal, PaginationRoles, Role } from '../../models/role';
+import { EditRoleModal, Role } from '../../models/role';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API_URL_CONST } from '../../utils/api-url-const';
 import { isNullOrEmptyString, isNullOrInvalidNumber } from '../../utils/helper';
 import { ResponseMessage } from '../../models/response-message';
+import { PaginationData } from '../../models/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RolesService {
   private readonly apiUrl = environment.apiUrl;
-  roleModalSubject$ = new BehaviorSubject<EditRoleModal>({} as EditRoleModal);
+  isRoleHandleSubject$ = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly _apiService: ApiService) {}
 
@@ -21,7 +22,7 @@ export class RolesService {
     pageSize?: number,
     sortField?: string,
     sortOrder?: string
-  ): Observable<PaginationRoles> {
+  ): Observable<PaginationData<Role>> {
     let urlApi = `${this.apiUrl}${API_URL_CONST.GET_ROLES}?page=${pageIndex}`;
 
     if (!isNullOrInvalidNumber(pageSize)) {
@@ -36,7 +37,7 @@ export class RolesService {
       urlApi += `&sortOrder=${sortOrder}`;
     }
 
-    return this._apiService.get<PaginationRoles>(urlApi);
+    return this._apiService.get<PaginationData<Role>>(urlApi);
   }
 
   createRole(role: Role): Observable<Role> {
@@ -55,7 +56,7 @@ export class RolesService {
     return this._apiService.get<Role>(`${this.apiUrl}${API_URL_CONST.FIND_ROLE}/${id}`);
   }
 
-  setRoleModalSubject(roleModal: EditRoleModal) {
-    this.roleModalSubject$.next(roleModal);
+  setIsRoleHandleSubject(isRole: boolean) {
+    this.isRoleHandleSubject$.next(isRole);
   }
 }

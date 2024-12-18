@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -12,11 +11,8 @@ import {
 } from '@angular/core';
 import {
   FormControl,
-  FormsModule,
   NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { DemoFlexyModule } from '../../demo-flexy.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 
@@ -40,8 +36,6 @@ export interface SortByChange {
   selector: 'app-table-common',
   templateUrl: './table-common.component.html',
   styleUrls: ['./table-common.component.scss'],
-  standalone: true,
-  imports: [DemoFlexyModule, ReactiveFormsModule, FormsModule, CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

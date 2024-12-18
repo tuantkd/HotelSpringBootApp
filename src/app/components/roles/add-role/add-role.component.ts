@@ -1,21 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DemoFlexyModule } from '../../../../demo-flexy.module';
 import {
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RolesService } from '../../../../services/roles/roles.service';
-import { EditRoleModal, Role } from '../../../../models/role';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RolesService } from '../../../services/roles/roles.service';
+import { EditRoleModal, Role } from '../../../models/role';
 
 @Component({
   selector: 'app-add-role',
-  standalone: true,
-  imports: [DemoFlexyModule, ReactiveFormsModule, CommonModule],
   templateUrl: './add-role.component.html',
   styleUrl: './add-role.component.scss',
 })
@@ -67,7 +62,7 @@ export class AddRoleComponent implements OnInit {
     }
     this._rolesService.updateRole(dataUpdate).subscribe((response) => {
       if (response?.id !== null) {
-        this._rolesService.setRoleModalSubject({} as EditRoleModal);
+        this._rolesService.setIsRoleHandleSubject(true);
         this._dialogRef.close();
         this._message.success('Update successfully', {
           nzDuration: 3000,
@@ -80,7 +75,7 @@ export class AddRoleComponent implements OnInit {
     // Create new role
     this._rolesService.createRole(roleInput).subscribe((response) => {
       if (response?.id !== null) {
-        this._rolesService.setRoleModalSubject({} as EditRoleModal);
+        this._rolesService.setIsRoleHandleSubject(true);
         this._dialogRef.close();
         this._message.success('Create successfully', {
           nzDuration: 3000,

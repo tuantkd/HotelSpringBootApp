@@ -9,10 +9,3 @@ export interface EditRoleModal {
     action: string
     role?: Role;
 }
-
-export interface PaginationRoles {
-    roles?: Array<Role>;
-    totalElements?: number;
-    totalPages?: number;
-    totalAll?: number;
-}

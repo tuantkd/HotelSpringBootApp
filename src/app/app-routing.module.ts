@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { RolesComponent } from './components/roles/roles.component';
-import { ChipsComponent } from './components/chips/chips.component';
 import { ExpansionComponent } from './components/expansion/expansion.component';
 import { FormsComponent } from './components/forms/forms.component';
 import { GridListComponent } from './components/grid-list/grid-list.component';
@@ -14,7 +13,7 @@ import { SliderComponent } from './components/slider/slider.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { ProductComponent } from './components/users/users.component';
+import { UsersComponent } from './components/users/users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FullComponent } from './layouts/full/full.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -37,12 +36,11 @@ const routes: Routes = [
       },
       { path: 'alerts', component: AlertsComponent },
       { path: 'forms', component: FormsComponent },
-      { path: 'users', component: ProductComponent },
+      { path: 'users', component: UsersComponent },
       { path: 'grid-list', component: GridListComponent },
       { path: 'menu', component: MenuComponent },
       { path: 'tabs', component: TabsComponent },
       { path: 'expansion', component: ExpansionComponent },
-      { path: 'chips', component: ChipsComponent },
       { path: 'progress', component: ProgressComponent },
       { path: 'toolbar', component: ToolbarComponent },
       { path: 'progress-snipper', component: ProgressSnipperComponent },

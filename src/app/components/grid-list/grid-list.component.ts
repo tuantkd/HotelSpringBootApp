@@ -1,12 +1,7 @@
-import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { DemoFlexyModule } from 'src/app/demo-flexy.module';
 
 @Component({
   selector: 'app-grid-list',
-  standalone: true,
-  imports: [DemoFlexyModule, MatGridListModule, NgFor],
   templateUrl: './grid-list.component.html',
   styleUrls: ['./grid-list.component.scss']
 })

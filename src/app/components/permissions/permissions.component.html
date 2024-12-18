@@ -1,11 +1,51 @@
 <div class="row">
-    <div class="col-12" >
-        <mat-card>
-            <mat-card-content>
-              <mat-card-title>Basic slide-toggles</mat-card-title>
-              <mat-card-subtitle><code>&lt;mat-slide-toggle&gt;</code> is an on/off control that can be toggled via clicking or dragging.</mat-card-subtitle>
-              <mat-slide-toggle>Slide me!</mat-slide-toggle>
-            </mat-card-content>        
-        </mat-card>
-    </div>
-</div>   
+  <div class="col-12">
+    <mat-card class="w-100">
+      <mat-card-content>
+        <div class="header-container">
+          <!-- Left Content -->
+          <div class="header-left">
+            <h2>Manage Permissions</h2>
+          </div>
+
+          <!-- Right Content -->
+          <div class="header-right">
+            <button mat-flat-button color="primary" (click)="openModal()">
+              Add New
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <app-table-common
+            [data]="dataSource"
+            [columns]="displayedColumns"
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageSizeChange)="onPageSizeChange($event)"
+            (currentPageChange)="onCurrentPageChange($event)"
+            (sortChange)="onSortChange($event)"
+          ></app-table-common>
+
+          <!-- Define the Custom Template -->
+          <ng-template #actionsCell let-element>
+            <button
+              mat-icon-button
+              aria-label="More vert icon"
+              [matMenuTriggerFor]="menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editRole(element.id)">Edit</button>
+              <button mat-menu-item>Assign Permissions</button>
+              <button mat-menu-item (click)="deleteRole(element.id)">
+                Delete
+              </button>
+            </mat-menu>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

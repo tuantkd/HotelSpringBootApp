@@ -1,14 +1,17 @@
-.example-h2 {
-  margin: 10px;
-}
-
-.example-section {
+.header-container {
   display: flex;
-  align-content: center;
-  align-items: center;
-  height: 60px;
+  justify-content: space-between; /* Push left and right content to edges */
+  align-items: center; /* Align items vertically */
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.example-margin {
-  margin: 10px;
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  gap: 10px; /* Add spacing between buttons */
 }

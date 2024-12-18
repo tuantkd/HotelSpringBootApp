@@ -1,26 +1,30 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { DemoFlexyModule } from '../../demo-flexy.module';
-import { EditRoleModal, PaginationRoles, Role } from '../../models/role';
-import { MatSort } from '@angular/material/sort';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { EditRoleModal, Role } from '../../models/role';
 import { RolesService } from '../../services/roles/roles.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddRoleComponent } from './add/add-role/add-role.component';
+import { AddRoleComponent } from './add-role/add-role.component';
 import { Subscription } from 'rxjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
-import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HeaderTableCommon, PageSizeChange, SortByChange, TableCommonComponent } from '../table-common/table-common.component';
+import { FormControl } from '@angular/forms';
+import {
+  HeaderTableCommon,
+  PageSizeChange,
+  SortByChange,
+} from '../table-common/table-common.component';
+import { PaginationData } from '../../models/common';
 
 @Component({
   selector: 'app-roles',
-  standalone: true,
-  imports: [DemoFlexyModule, DemoNgZorroAntdModule, CommonModule, FormsModule, ReactiveFormsModule, TableCommonComponent],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
 })
-export class RolesComponent implements OnInit {
+export class RolesComponent implements OnInit, AfterViewInit {
   @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
   displayedColumns: HeaderTableCommon[] = [
     { key: 'id', label: 'ID' },
@@ -37,8 +41,6 @@ export class RolesComponent implements OnInit {
   currentSort: string = 'id';
   currentDirection: string = 'asc';
 
-  @ViewChild(MatSort) sort!: MatSort;
-
   private readonly subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -48,56 +50,53 @@ export class RolesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      this._rolesService.roleModalSubject$.subscribe((data) => {
-        this.loadRoles();
-      })
-    );
+    this.loadRoles();
   }
 
   ngAfterViewInit() {
+    this.subscriptions.add(
+      this._rolesService.isRoleHandleSubject$.subscribe((data) => {
+        if (data) {
+          this.loadRoles();
+        }
+      })
+    );
     this.displayedColumns = this.displayedColumns.map((col) =>
       col.key === 'actions' ? { ...col, template: this.actionsCell } : col
     );
   }
 
-  onEdit(element: any): void {
-    console.log('Edit:', element);
-  }
-
-  onDelete(element: any): void {
-    console.log('Delete:', element);
-  }
-
   loadRoles(): void {
-    this._rolesService
-      .getAll(
-        this.currentPage,
-        this.pageSize.value,
-        this.currentSort,
-        this.currentDirection
-      )
-      .subscribe((response: PaginationRoles) => {
-        this.dataSource = response.roles as Array<Role>;
-        this.totalAll = Number(response.totalAll);
-        this.totalPages =  Number(response.totalPages);
-      });
+    this.subscriptions.add(
+      this._rolesService
+        .getAll(
+          this.currentPage,
+          this.pageSize.value,
+          this.currentSort,
+          this.currentDirection
+        )
+        .subscribe((response: PaginationData<Role>) => {
+          this.dataSource = response?.data ?? ([] as Array<Role>);
+          this.totalAll = Number(response.totalAll);
+          this.totalPages = Number(response.totalPages);
+        })
+    );
   }
 
   openModal(data?: EditRoleModal): void {
     this._dialog.open(AddRoleComponent, {
       width: '600px',
-      data: data
+      data: data,
     });
   }
 
   editRole(id: number): void {
-    this._rolesService.findRoleById(id).subscribe(data => {
+    this._rolesService.findRoleById(id).subscribe((data) => {
       const editRole: EditRoleModal = {
         title: 'Edit role',
         action: 'Update',
-        role: data
-      }
+        role: data,
+      };
       this.openModal(editRole);
     });
   }

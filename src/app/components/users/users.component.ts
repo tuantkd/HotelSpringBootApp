@@ -1,8 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { DemoFlexyModule } from '../../demo-flexy.module';
 import { UserTable } from '../../models/user';
-import { CommonModule } from '@angular/common';
-import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 
 interface ItemData {
   id: number;
@@ -50,13 +47,11 @@ const ELEMENT_DATA: UserTable[] = [
 ];
 
 @Component({
-  selector: 'app-product',
-  standalone: true,
-  imports: [DemoFlexyModule, DemoNgZorroAntdModule, CommonModule],
+  selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
-export class ProductComponent implements AfterViewInit, OnInit {
+export class UsersComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     throw new Error('Method not implemented.');

@@ -1,6 +1,4 @@
-import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FeatherModule } from 'angular-feather';
 
 interface alerts {
   border: string;
@@ -23,8 +21,6 @@ interface desc {
 
 @Component({
   selector: 'app-alerts',
-  standalone: true,
-  imports: [FeatherModule, NgFor],
   templateUrl: './alerts.component.html',
 })
 export class AlertsComponent implements OnInit {
