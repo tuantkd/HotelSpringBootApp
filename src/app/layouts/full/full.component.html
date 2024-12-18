@@ -54,12 +54,7 @@
           class="text-light-muted feather-base mt-n3"
         ></i-feather>
       </button>
-      <button mat-icon-button class="ms-4 me-4" (click)="search = !search">
-        <i-feather
-          name="search"
-          class="mt-n3 text-light-muted feather-base text-dark"
-        ></i-feather>
-      </button>
+
       <div class="ms-auto">
         <button
           mat-button
@@ -76,15 +71,18 @@
         <mat-menu #menu="matMenu" class="profile-dropdown">
           <div class="p-16 mb-4">
             <button mat-menu-item class="fs-16">Edit Profile</button>
-            <button mat-menu-item class="fs-16">Account</button>
             <button mat-menu-item class="fs-16">Change Password</button>
-            <button mat-menu-item class="fs-16">My Settings</button>
           </div>
 
           <hr />
 
           <div class="p-16">
-            <button mat-flat-button color="accent" class="w-100 text-white" (click)="logOut()">
+            <button
+              mat-flat-button
+              color="accent"
+              class="w-100 text-white"
+              (click)="logOut()"
+            >
               Logout
             </button>
           </div>
@@ -110,17 +108,3 @@
     </p>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<!-- Search Box -->
-<div *ngIf="search" class="search-section d-flex align-items-center">
-  <mat-form-field class="w-100" color="primary">
-    <mat-label class="fs-16">Search Here</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <button mat-icon-button (click)="search = !search">
-    <i-feather
-      name="x-circle"
-      class="mt-n3 text-light-muted feather-base text-dark"
-    ></i-feather>
-  </button>
-</div>

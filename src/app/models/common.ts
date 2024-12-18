@@ -5,3 +5,9 @@ export interface PaginationData<T> {
     totalPages?: number;
     totalAll?: number;
 }
+
+export interface EditModal<T> {
+    title: string;
+    action: string
+    data?: T;
+}

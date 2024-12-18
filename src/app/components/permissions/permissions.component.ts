@@ -16,7 +16,9 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PermissionsService } from '../../services/permissions/permissions.service';
-import { PaginationData } from '../../models/common';
+import { EditModal, PaginationData } from '../../models/common';
+import { AddPermissionComponent } from './add-permission/add-permission.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-slide-toggle',
@@ -43,12 +45,20 @@ export class PermissionsComponent implements OnInit, AfterViewInit {
   private readonly subscriptions: Subscription = new Subscription();
 
   constructor(
-    private readonly _permissionsService: PermissionsService,
     public _dialog: MatDialog,
-    private readonly _modalService: NzModalService
+    private readonly _permissionsService: PermissionsService,
+    private readonly _modalService: NzModalService,
+    private readonly _message: NzMessageService,
   ) {}
 
   ngAfterViewInit(): void {
+    this.subscriptions.add(
+      this._permissionsService.isPermissionHandleSubject$.subscribe((data) => {
+        if (data) {
+          this.loadPermissions();
+        }
+      })
+    );
     this.displayedColumns = this.displayedColumns.map((col) =>
       col.key === 'actions' ? { ...col, template: this.actionsCell } : col
     );
@@ -76,21 +86,22 @@ export class PermissionsComponent implements OnInit, AfterViewInit {
   }
 
   openModal(data?: any): void {
-    // this._dialog.open(AddRoleComponent, {
-    //   width: '600px',
-    //   data: data,
-    // });
+    this._dialog.open(AddPermissionComponent, {
+      width: '600px',
+      data: data,
+    });
+    this._permissionsService.setIsPermissionHandleSubject(false);
   }
 
   editRole(id: number): void {
-    // this._rolesService.findRoleById(id).subscribe((data) => {
-    //   const editRole: EditRoleModal = {
-    //     title: 'Edit role',
-    //     action: 'Update',
-    //     role: data,
-    //   };
-    //   this.openModal(editRole);
-    // });
+    this._permissionsService.findPermissionById(id).subscribe((data) => {
+      const editRole: EditModal<Permission> = {
+        title: 'Edit Permission',
+        action: 'Update',
+        data: data,
+      };
+      this.openModal(editRole);
+    });
   }
 
   deleteRole(id: number): void {
@@ -100,9 +111,12 @@ export class PermissionsComponent implements OnInit, AfterViewInit {
       nzOkText: 'Okie',
       nzCancelText: 'Cancel',
       nzOnOk: () => {
-        // this._rolesService.deleteRole(id).subscribe((data) => {
-        //   this.loadRoles();
-        // });
+        this._permissionsService.deletePermission(id).subscribe((data) => {
+          this._message.success('Delete successfully', {
+            nzDuration: 3000,
+          });
+          this.loadPermissions();
+        });
       },
     });
   }

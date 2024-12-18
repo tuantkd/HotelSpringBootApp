@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { EditRoleModal, Role } from '../../models/role';
+import { Role } from '../../models/role';
 import { RolesService } from '../../services/roles/roles.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddRoleComponent } from './add-role/add-role.component';
@@ -17,7 +17,8 @@ import {
   PageSizeChange,
   SortByChange,
 } from '../table-common/table-common.component';
-import { PaginationData } from '../../models/common';
+import { EditModal, PaginationData } from '../../models/common';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-roles',
@@ -44,9 +45,10 @@ export class RolesComponent implements OnInit, AfterViewInit {
   private readonly subscriptions: Subscription = new Subscription();
 
   constructor(
-    private readonly _rolesService: RolesService,
     public _dialog: MatDialog,
-    private readonly _modalService: NzModalService
+    private readonly _rolesService: RolesService,
+    private readonly _modalService: NzModalService,
+    private readonly _message: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -83,19 +85,20 @@ export class RolesComponent implements OnInit, AfterViewInit {
     );
   }
 
-  openModal(data?: EditRoleModal): void {
+  openModal(data?: EditModal<Role>): void {
     this._dialog.open(AddRoleComponent, {
       width: '600px',
       data: data,
     });
+    this._rolesService.setIsRoleHandleSubject(false);
   }
 
   editRole(id: number): void {
     this._rolesService.findRoleById(id).subscribe((data) => {
-      const editRole: EditRoleModal = {
-        title: 'Edit role',
+      const editRole: EditModal<Role> = {
+        title: 'Edit Role',
         action: 'Update',
-        role: data,
+        data: data,
       };
       this.openModal(editRole);
     });
@@ -109,6 +112,9 @@ export class RolesComponent implements OnInit, AfterViewInit {
       nzCancelText: 'Cancel',
       nzOnOk: () => {
         this._rolesService.deleteRole(id).subscribe((data) => {
+          this._message.success('Delete successfully', {
+            nzDuration: 3000,
+          });
           this.loadRoles();
         });
       },

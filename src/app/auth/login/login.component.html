@@ -9,10 +9,12 @@
                 <form [formGroup]="loginForm">
                     <h2>Sign In</h2>
                     
-                    <input type="text" id="email" formControlName="email" placeholder="Email Address" 
+                    <input type="text" id="email" autocomplete="username" formControlName="email" placeholder="Email Address"
+                    (keydown.enter)="onSubmit()"
                     [ngClass]="{'is-valid': email?.valid, 'is-invalid': email?.invalid && email?.touched}"/>
 
-                    <input type="password" id="password" autocomplete formControlName="password" placeholder="Create Password" 
+                    <input type="password" id="password" autocomplete="current-password" formControlName="password" placeholder="Create Password"
+                    (keydown.enter)="onSubmit()"
                     [ngClass]="{'is-valid': password?.valid, 'is-invalid': password?.invalid && password?.touched}"/>
 
                     <input type="button" value="Login" id="login" (click)="onSubmit()" 

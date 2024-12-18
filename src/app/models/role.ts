@@ -3,9 +3,3 @@ export interface Role {
     name?: string;
     description?: string;
 }
-
-export interface EditRoleModal {
-    title: string;
-    action: string
-    role?: Role;
-}

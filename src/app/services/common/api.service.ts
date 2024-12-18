@@ -40,7 +40,10 @@ export class ApiService {
   put<T>(url: string, body: any) {
     this.loadingService.setLoading(true);
     return this.http.put<T>(url, body).pipe(
-      catchError(this.handleError.bind(this)),
+      catchError((error: HttpErrorResponse) => {
+        this.handleError(error);
+        return throwError(error);
+      }),
       finalize(() => this.loadingService.setLoading(false))
     );
   }
@@ -48,7 +51,10 @@ export class ApiService {
   delete<T>(url: string) {
     this.loadingService.setLoading(true);
     return this.http.delete<T>(url).pipe(
-      catchError(this.handleError.bind(this)),
+      catchError((error: HttpErrorResponse) => {
+        this.handleError(error);
+        return throwError(error);
+      }),
       finalize(() => this.loadingService.setLoading(false))
     );
   }

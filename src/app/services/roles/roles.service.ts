@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../common/api.service';
-import { EditRoleModal, Role } from '../../models/role';
+import { Role } from '../../models/role';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API_URL_CONST } from '../../utils/api-url-const';
 import { isNullOrEmptyString, isNullOrInvalidNumber } from '../../utils/helper';
@@ -48,7 +48,7 @@ export class RolesService {
     return this._apiService.post<Role>(`${this.apiUrl}${API_URL_CONST.UPDATE_ROLE}`, role);
   }
 
-  deleteRole(id: number): Observable<any> {
+  deleteRole(id: number): Observable<ResponseMessage> {
     return this._apiService.delete<ResponseMessage>(`${this.apiUrl}${API_URL_CONST.DELETE_ROLE}/${id}`);
   }
 
@@ -56,7 +56,7 @@ export class RolesService {
     return this._apiService.get<Role>(`${this.apiUrl}${API_URL_CONST.FIND_ROLE}/${id}`);
   }
 
-  setIsRoleHandleSubject(isRole: boolean) {
-    this.isRoleHandleSubject$.next(isRole);
+  setIsRoleHandleSubject(isEdit: boolean) {
+    this.isRoleHandleSubject$.next(isEdit);
   }
 }

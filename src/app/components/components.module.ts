@@ -21,12 +21,15 @@ import { TableCommonComponent } from './table-common/table-common.component';
 import { AddRoleComponent } from './roles/add-role/add-role.component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { UsersComponent } from './users/users.component';
+import { AddPermissionComponent } from './permissions/add-permission/add-permission.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
-    RolesComponent,
     PermissionsComponent,
+    AddPermissionComponent,
+    RolesComponent,
+    AddRoleComponent,
     SliderComponent,
     ToolbarComponent,
     ProgressSnipperComponent,
@@ -39,7 +42,6 @@ import { UsersComponent } from './users/users.component';
     AlertsComponent,
     GridListComponent,
     TableCommonComponent,
-    AddRoleComponent,
   ],
   imports: [
     CommonModule,
@@ -51,20 +53,21 @@ import { UsersComponent } from './users/users.component';
   ],
   exports: [
     UsersComponent,
-    AlertsComponent,
-    FormsComponent,
-    GridListComponent,
+    PermissionsComponent,
+    AddPermissionComponent,
+    RolesComponent,
+    AddRoleComponent,
+    SliderComponent,
+    ToolbarComponent,
+    ProgressSnipperComponent,
+    SnackbarComponent,
     MenuComponent,
     TabsComponent,
     ExpansionComponent,
     ProgressComponent,
-    ToolbarComponent,
-    ProgressSnipperComponent,
-    SnackbarComponent,
-    SliderComponent,
-    PermissionsComponent,
-    RolesComponent,
-    AddRoleComponent,
+    FormsComponent,
+    AlertsComponent,
+    GridListComponent,
     TableCommonComponent,
   ],
 })
